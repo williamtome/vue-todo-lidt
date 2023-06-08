@@ -11,7 +11,7 @@
 <style scoped>
   .background {
     padding: 10px 0;
-    background-color: #000;
+    background-color: #42b983;
     color: #fff;
   }
 </style>
