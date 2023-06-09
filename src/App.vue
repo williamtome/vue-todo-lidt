@@ -16,7 +16,7 @@
   <div>
     <p>Profissão: <input type="text" name="profession" v-model="profession"></p>
     <div>
-      Minha profissão é {{profession}}
+      Minha profissão é {{professionUpperCase}}
     </div>
   </div>
 
@@ -48,12 +48,20 @@ export default {
       name: "William",
       accessLevel: 'marketing',
       profession: '',
+      professionUpperCase: ''
+    }
+  },
+  watch: {
+    profession(newValue) {
+      this.professionUpperCase = newValue.toUpperCase()
     }
   },
   computed: {
     fullName() {
       return `${this.user.name + ' ' + this.user.last_name}`
     },
+  },
+  methods: {
   }
 }
 </script>
