@@ -9,6 +9,9 @@
   }
 </script>
 <style scoped>
+  footer {
+    margin-top: 100px;
+  }
   .background {
     padding: 10px 0;
     background-color: #42b983;
