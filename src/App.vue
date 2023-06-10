@@ -9,6 +9,8 @@
     Conteudo TRUE! Me dê papai!!!
   </TheHeader>
 
+  <BaseCard/>
+
   <h1>{{ fullName }}</h1>
 
   <div v-if="accessLevel === 'admin'">
@@ -36,6 +38,7 @@
 <script>
 import TheHeader from "./components/TheHeader.vue"
 import TheFooter from "./components/TheFooter.vue"
+import BaseCard from "./components/BaseCard.vue"
 
 export default {
   beforeCreate() {
@@ -60,6 +63,7 @@ export default {
   },
   name: 'App',
   components: {
+    BaseCard,
     TheHeader,
     TheFooter
   },
