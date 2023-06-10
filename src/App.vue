@@ -9,7 +9,11 @@
 <!--    Conteudo TRUE! Me dê papai!!!-->
 <!--  </TheHeader>-->
 
-  <BaseAlert :variant="variant">
+  <BaseAlert
+      v-if="showAlert"
+      :variant="variant"
+      @close="onClose()"
+  >
     Dados cadastrados com sucesso.
   </BaseAlert>
 
@@ -56,6 +60,7 @@ export default {
   data() {
     return {
       variant: 'success',
+      showAlert: true,
       user: {
         name: 'William',
         last_name: 'Tomé'
@@ -77,6 +82,10 @@ export default {
     },
   },
   methods: {
+    onClose() {
+      this.showAlert = false
+      console.log('on close')
+    }
   },
   beforeCreate() {
     console.log('beforeCreate')

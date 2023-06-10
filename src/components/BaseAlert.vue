@@ -1,6 +1,10 @@
 <template>
   <div :class="baseClass">
     <slot />
+
+    <div>
+      <button @click.prevent="onclick()">X</button>
+    </div>
   </div>
 </template>
 
@@ -16,6 +20,12 @@ export default {
       type: String,
     }
   },
+  methods: {
+    onclick() {
+      this.$emit('close')
+      console.log('clicou')
+    }
+  },
   computed: {
     baseClass() {
       return [
@@ -28,13 +38,17 @@ export default {
 </script>
 
 <style scoped>
+.alert {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 10px;
+}
 .alert-success {
   background-color: #42b983;
   color: white;
   font-weight: bold;
   width: 500px;
-  padding: 10px;
-  border-radius: 10px;
   margin: 0 auto;
 }
 </style>
