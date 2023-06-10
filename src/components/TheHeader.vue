@@ -1,9 +1,14 @@
 <template>
-  <header
-      class="background"
-      v-if="isAuthenticated"
-  >
-    <h1>Cabeçalho</h1>
+  <header class="header">
+    <div v-if="$slots.title" class="title">
+      <slot name="title"></slot>
+    </div>
+    <div class="description">
+      <slot name="description"></slot>
+    </div>
+    <div class="content">
+      <slot/>
+    </div>
   </header>
 </template>
 

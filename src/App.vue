@@ -1,5 +1,13 @@
 <template>
-  <TheHeader/>
+  <TheHeader>
+    <template v-slot:title>
+      <h1>Home</h1>
+    </template>
+    <template v-slot:description>
+      <p>Descrição</p>
+    </template>
+    Conteudo TRUE! Me dê papai!!!
+  </TheHeader>
 
   <h1>{{ fullName }}</h1>
 
@@ -22,22 +30,38 @@
 
   <br><br>
 
-  <TodoList/>
-
   <TheFooter/>
 </template>
 
 <script>
 import TheHeader from "./components/TheHeader.vue"
 import TheFooter from "./components/TheFooter.vue"
-import TodoList from "./components/TodoList.vue"
 
 export default {
+  beforeCreate() {
+    console.log('beforeCreate')
+    console.log('Estado: ' + this.name)
+    console.log('DOM: ' + this.$el)
+  },
+  created() {
+    console.log('created')
+    console.log('Estado: ' + this.name)
+    console.log('DOM: ' + this.$el)
+  },
+  beforeMount() {
+    console.log('beforeMount')
+    console.log('Estado: ' + this.name)
+    console.log('DOM: ' + this.$el)
+  },
+  mounted() {
+    console.log('Mounted')
+    console.log('Estado: ' + this.name)
+    console.log('DOM: ' + this.$el)
+  },
   name: 'App',
   components: {
     TheHeader,
-    TheFooter,
-    TodoList
+    TheFooter
   },
   data() {
     return {
