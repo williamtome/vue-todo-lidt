@@ -41,6 +41,13 @@
 <!--  <br><br>-->
 
 <!--  <TheFooter/>-->
+
+  <input type="text" name="first_name" v-model="user.first_name"> {{ user.first_name }} <br>
+  <input type="text" name="last_name" v-model="user.last_name"> {{ user.last_name }} <br>
+  <input type="email" name="email" v-model="user.email"> {{ user.email }} <br>
+  <button @click="editUser()">Atualizar</button>
+  <h2>{{ $store.state.user.first_name }} {{ $store.state.user.last_name }} <br></h2>
+  <h2>{{ $store.state.user.email }}</h2>
 </template>
 
 <script>
@@ -61,14 +68,15 @@ export default {
     return {
       variant: 'success',
       showAlert: true,
-      user: {
-        name: 'William',
-        last_name: 'Tomé'
-      },
       name: "William",
       accessLevel: 'marketing',
       profession: '',
-      professionUpperCase: ''
+      professionUpperCase: '',
+      user: {
+        first_name: '',
+        last_name: '',
+        email: '',
+      },
     }
   },
   watch: {
@@ -82,6 +90,14 @@ export default {
     },
   },
   methods: {
+    editUser() {
+      this.$store.commit('updateUser', this.user)
+      this.user = {
+        first_name: '',
+        last_name: '',
+        email: '',
+      }
+    },
     onClose() {
       this.showAlert = false
       console.log('on close')
@@ -94,8 +110,8 @@ export default {
   },
   created() {
     console.log('created')
-    console.log('Estado: ' + this.name)
-    console.log('DOM: ' + this.$el)
+    // console.log('Estado: ' + this.name)
+    // console.log('DOM: ' + this.$el)
   },
   beforeMount() {
     console.log('beforeMount')
