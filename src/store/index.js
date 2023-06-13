@@ -27,9 +27,10 @@ export default createStore({
         cart: [],
     },
     mutations: {
+        // sync
         updateUser(state, payload) {
+            console.log('mutation: updateUser')
             this.state.user = payload
-            console.log(this.state.user)
         },
         saveProductInCart(state, payload) {
             this.state.cart.push(payload)
@@ -39,7 +40,19 @@ export default createStore({
             state.cart.splice(index,1)
         }
     },
-    actions: {},
+    actions: {
+        // async
+        updateUser({ commit }, payload) {
+            console.log('action: updateUser')
+
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve()
+                    commit('updateUser', payload)
+                }, 3000)
+            })
+        }
+    },
     getters: {},
     modules: {}
 })

@@ -78,9 +78,9 @@ export default {
       profession: '',
       professionUpperCase: '',
       user: {
-        first_name: '',
-        last_name: '',
-        email: '',
+        first_name: 'Jon',
+        last_name: 'Snow',
+        email: 'jon@snow.com',
       },
     }
   },
@@ -96,12 +96,9 @@ export default {
   },
   methods: {
     editUser() {
-      this.$store.commit('updateUser', this.user)
-      this.user = {
-        first_name: '',
-        last_name: '',
-        email: '',
-      }
+      // this.$store.commit('updateUser', this.user)
+      this.$store.dispatch('updateUser', this.user)
+
     },
     onClose() {
       this.showAlert = false
