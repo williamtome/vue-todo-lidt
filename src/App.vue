@@ -42,9 +42,12 @@
 
 <!--  <TheFooter/>-->
 
-  <input type="text" name="first_name" v-model="user.first_name"> {{ user.first_name }} <br>
-  <input type="text" name="last_name" v-model="user.last_name"> {{ user.last_name }} <br>
-  <input type="email" name="email" v-model="user.email"> {{ user.email }} <br>
+<!--  <input type="text" name="first_name" v-model="user.first_name"> {{ user.first_name }} <br>-->
+<!--  <input type="text" name="last_name" v-model="user.last_name"> {{ user.last_name }} <br>-->
+<!--  <input type="email" name="email" v-model="user.email"> {{ user.email }} <br>-->
+
+  <ProductsAll />
+  <hr>
   <button @click="editUser()">Atualizar</button>
   <h2>{{ $store.state.user.first_name }} {{ $store.state.user.last_name }} <br></h2>
   <h2>{{ $store.state.user.email }}</h2>
@@ -55,6 +58,7 @@
 // import TheFooter from "./components/TheFooter.vue"
 // import BaseCard from "./components/BaseCard.vue"
 import BaseAlert from "./components/BaseAlert.vue"
+import ProductsAll from "./components/Products/ProductsAll.vue"
 
 export default {
   name: 'App',
@@ -63,6 +67,7 @@ export default {
     // TheHeader,
     // TheFooter,
     BaseAlert,
+    ProductsAll,
   },
   data() {
     return {
