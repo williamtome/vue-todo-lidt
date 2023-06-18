@@ -1,130 +1,118 @@
 <template>
-<!--  <TheHeader>-->
-<!--    <template v-slot:title>-->
-<!--      <h1>Home</h1>-->
-<!--    </template>-->
-<!--    <template v-slot:description>-->
-<!--      <p>Descrição</p>-->
-<!--    </template>-->
-<!--    Conteudo TRUE! Me dê papai!!!-->
-<!--  </TheHeader>-->
+  <h1>Minha lista de tarefas</h1>
+  <button @click="showOrHideList">
+    {{ state.showList ? 'Ocultar lista' : 'Ver Lista' }}
+  </button>
+  <input
+      type="text"
+      v-focus
+      @keyup.enter="addTask"
+      v-model="state.currentTask">
 
-  <BaseAlert
-      v-if="showAlert"
-      :variant="variant"
-      @close="onClose()"
-  >
-    Dados cadastrados com sucesso.
-  </BaseAlert>
-
-<!--  <BaseCard/>-->
-
-<!--  <h1>{{ fullName }}</h1>-->
-
-<!--  <div v-if="accessLevel === 'admin'">-->
-<!--    <p>Usuário Admin</p>-->
-<!--  </div>-->
-<!--  <div v-else-if="accessLevel === 'marketing'">-->
-<!--    <p>Usuário Marketing</p>-->
-<!--  </div>-->
-<!--  <div v-else>-->
-<!--    <p>Usuário Padrão</p>-->
-<!--  </div>-->
-
-<!--  <div>-->
-<!--    <p>Profissão: <input type="text" name="profession" v-model="profession"></p>-->
-<!--    <div>-->
-<!--      Minha profissão é {{professionUpperCase}}-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <br><br>-->
-
-<!--  <TheFooter/>-->
-
-<!--  <input type="text" name="first_name" v-model="user.first_name"> {{ user.first_name }} <br>-->
-<!--  <input type="text" name="last_name" v-model="user.last_name"> {{ user.last_name }} <br>-->
-<!--  <input type="email" name="email" v-model="user.email"> {{ user.email }} <br>-->
-
-  <ProductsAll />
-  <hr>
-  <button @click="editUser()">Atualizar</button>
-  <h2>{{ $store.state.user.first_name }} {{ $store.state.user.last_name }} <br></h2>
-  <h2>{{ $store.state.user.email }}</h2>
+  <ul v-if="state.showList">
+    <li
+        v-for="(task, index) in state.tasks"
+        :key="index"
+        @dblclick="complete(task)"
+        class="task-item"
+        :class="{ 'line-through': task.isDone }"
+    >
+      <p>
+        {{ task.name }} - Finalizado: {{ task.isDone ? 'Sim' : 'Não' }}
+        <button @click="remove(task)">&times;</button>
+      </p>
+    </li>
+  </ul>
 </template>
 
 <script>
-// import TheHeader from "./components/TheHeader.vue"
-// import TheFooter from "./components/TheFooter.vue"
-// import BaseCard from "./components/BaseCard.vue"
-import BaseAlert from "./components/BaseAlert.vue"
-import ProductsAll from "./components/Products/ProductsAll.vue"
-
+// sintaxe vue 2:
+/*
+const focus = {
+  inserted: (el) => el.focus()
+}
 export default {
+  directives: {focus},
   name: 'App',
-  components: {
-    // BaseCard,
-    // TheHeader,
-    // TheFooter,
-    BaseAlert,
-    ProductsAll,
-  },
   data() {
     return {
-      variant: 'success',
-      showAlert: true,
-      name: "William",
-      accessLevel: 'marketing',
-      profession: '',
-      professionUpperCase: '',
-      user: {
-        first_name: 'Jon',
-        last_name: 'Snow',
-        email: 'jon@snow.com',
-      },
+      currentTask: '',
+      showList: false,
+      tasks: [
+        {name: 'Fazer o curso', isDone: false},
+      ],
     }
-  },
-  watch: {
-    profession(newValue) {
-      this.professionUpperCase = newValue.toUpperCase()
-    }
-  },
-  computed: {
-    fullName() {
-      return `${this.user.name + ' ' + this.user.last_name}`
-    },
   },
   methods: {
-    editUser() {
-      // this.$store.commit('updateUser', this.user)
-      this.$store.dispatch('updateUser', this.user)
-
+    showOrHideList() {
+      this.showList = !this.showList
     },
-    onClose() {
-      this.showAlert = false
-      console.log('on close')
+    remove(task) {
+      this.tasks = this.tasks.filter((value) => value.name !== task.name)
+    },
+    complete(task) {
+      this.tasks = this.tasks.map(t => {
+        return (t.name === task.name)
+            ? {name: t.name, isDone: !t.isDone}
+            : {...t}
+      })
+    },
+    addTask() {
+      this.tasks.push({name: this.currentTask, isDone: false})
+      this.currentTask = ''
+    },
+  },
+}
+*/
+// sintaxe Vue 3:
+import {ref} from "vue";
+
+export default {
+  directives: {focus},
+  name: 'App',
+  setup() {
+    const state = ref({
+      currentTask: '',
+      showList: false,
+      tasks: [
+        {name: 'Fazer o curso', isDone: false},
+      ],
+    })
+
+    function showOrHideList() {
+      state.value.showList = !state.value.showList
+    }
+
+    function remove(task) {
+      state.value.tasks = state.value.tasks.filter((value) => value.name !== task.name)
+    }
+
+    function complete(task) {
+      state.value.tasks = state.value.tasks.map(t => {
+        return (t.name === task.name)
+            ? {name: t.name, isDone: !t.isDone}
+            : {...t}
+      })
+    }
+
+    function addTask() {
+      state.value.tasks.push({name: state.value.currentTask, isDone: false})
+      state.value.currentTask = ''
+    }
+
+    return {
+      state,
+      showOrHideList,
+      addTask,
+      remove,
+      complete,
     }
   },
-  beforeCreate() {
-    console.log('beforeCreate')
-    console.log('Estado: ' + this.name)
-    console.log('DOM: ' + this.$el)
-  },
-  created() {
-    console.log('created')
-    // console.log('Estado: ' + this.name)
-    // console.log('DOM: ' + this.$el)
-  },
-  beforeMount() {
-    console.log('beforeMount')
-    console.log('Estado: ' + this.name)
-    console.log('DOM: ' + this.$el)
-  },
   mounted() {
-    console.log('Mounted')
-    console.log('Estado: ' + this.name)
-    console.log('DOM: ' + this.$el)
-  },
+    setTimeout(() => {
+      console.log('Foi montado!')
+    }, 2000)
+  }
 }
 </script>
 
@@ -136,5 +124,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.task-item {
+  cursor: pointer
 }
 </style>

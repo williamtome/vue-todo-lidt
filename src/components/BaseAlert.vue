@@ -1,6 +1,6 @@
 <template>
   <div :class="baseClass">
-    <slot />
+    <slot/>
 
     <div>
       <button @click.prevent="onclick()">X</button>
@@ -29,8 +29,8 @@ export default {
   computed: {
     baseClass() {
       return [
-          'alert',
-          this.variant ? `alert-${this.variant}` : ''
+        'alert',
+        this.variant ? `alert-${this.variant}` : ''
       ]
     }
   }
@@ -44,6 +44,7 @@ export default {
   padding: 10px;
   border-radius: 10px;
 }
+
 .alert-success {
   background-color: #42b983;
   color: white;
