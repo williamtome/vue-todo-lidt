@@ -1,8 +1,11 @@
 <template>
+  <h2>{{ user.first_name }}</h2>
+  <h2>{{ user.last_name }}</h2>
+  <h2>Nome Completo: {{ fullName }}</h2>
+  <button @click="user.first_name = 'Sansa'">Atualizar nomes</button>
+  <br><br>
   <h1>Minha lista de tarefas</h1>
-  <h2>User: {{ user.name }}</h2>
-  <h2>Admin: {{ admin.name }}</h2>
-  <button @click="showOrHideList; changeName()">
+  <button @click="showOrHideList">
     {{ state.showList ? 'Ocultar lista' : 'Ver Lista' }}
   </button>
   <input
@@ -28,63 +31,25 @@
 </template>
 
 <script>
-// sintaxe vue 2:
-/*
-const focus = {
-  inserted: (el) => el.focus()
-}
-export default {
-  directives: {focus},
-  name: 'App',
-  data() {
-    return {
-      currentTask: '',
-      showList: false,
-      tasks: [
-        {name: 'Fazer o curso', isDone: false},
-      ],
-    }
-  },
-  methods: {
-    showOrHideList() {
-      this.showList = !this.showList
-    },
-    remove(task) {
-      this.tasks = this.tasks.filter((value) => value.name !== task.name)
-    },
-    complete(task) {
-      this.tasks = this.tasks.map(t => {
-        return (t.name === task.name)
-            ? {name: t.name, isDone: !t.isDone}
-            : {...t}
-      })
-    },
-    addTask() {
-      this.tasks.push({name: this.currentTask, isDone: false})
-      this.currentTask = ''
-    },
-  },
-}
-*/
 // sintaxe Vue 3:
-import {reactive, ref} from "vue";
+import {ref, computed} from "vue";
 
 export default {
   directives: {focus},
   name: 'App',
   setup() {
-    const user = reactive({
-      name: 'Jon Snow'
+    const user = ref({
+      first_name: 'Jon',
+      last_name: 'Snow'
     })
+    const fullName = computed(() => `${user.value.first_name} ${user.value.last_name}`)
 
-    const admin = ref({
-      name: 'Luke Skywalker'
-    })
+    // const changeName = () => {
+    //   user.value.first_name = "Luke"
+    //   user.value.last_name = 'Skywalker'
+    // }
 
-    const changeName = () => {
-      user.name = "Luke Skywalker"
-      admin.value.name = 'Jon Snow'
-    }
+
     const state = ref({
       currentTask: '',
       showList: false,
@@ -98,7 +63,7 @@ export default {
     }
 
     function remove(task) {
-      state.value.tasks = state.value.tasks.filter((value) => value.name !== task.name)
+      state.value.tasks = state.value.tasks.filter((value) => value.name !== task.name, {deep: true})
     }
 
     function complete(task) {
@@ -116,8 +81,8 @@ export default {
 
     return {
       user,
-      admin,
-      changeName,
+      fullName,
+      // changeName,
       state,
       showOrHideList,
       addTask,
