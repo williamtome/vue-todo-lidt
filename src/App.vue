@@ -1,6 +1,8 @@
 <template>
   <h1>Minha lista de tarefas</h1>
-  <button @click="showOrHideList">
+  <h2>User: {{ user.name }}</h2>
+  <h2>Admin: {{ admin.name }}</h2>
+  <button @click="showOrHideList; changeName()">
     {{ state.showList ? 'Ocultar lista' : 'Ver Lista' }}
   </button>
   <input
@@ -65,12 +67,24 @@ export default {
 }
 */
 // sintaxe Vue 3:
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 
 export default {
   directives: {focus},
   name: 'App',
   setup() {
+    const user = reactive({
+      name: 'Jon Snow'
+    })
+
+    const admin = ref({
+      name: 'Luke Skywalker'
+    })
+
+    const changeName = () => {
+      user.name = "Luke Skywalker"
+      admin.value.name = 'Jon Snow'
+    }
     const state = ref({
       currentTask: '',
       showList: false,
@@ -101,6 +115,9 @@ export default {
     }
 
     return {
+      user,
+      admin,
+      changeName,
       state,
       showOrHideList,
       addTask,
