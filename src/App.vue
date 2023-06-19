@@ -32,7 +32,7 @@
 
 <script>
 // sintaxe Vue 3:
-import {ref, computed} from "vue";
+import {ref, computed, watch} from "vue";
 
 export default {
   directives: {focus},
@@ -42,12 +42,10 @@ export default {
       first_name: 'Jon',
       last_name: 'Snow'
     })
+    
     const fullName = computed(() => `${user.value.first_name} ${user.value.last_name}`)
-
-    // const changeName = () => {
-    //   user.value.first_name = "Luke"
-    //   user.value.last_name = 'Skywalker'
-    // }
+    watch(user, () => user.value.last_name = 'Stark', {deep: true})
+    // watch(() => user.value.last_name, () => 'Stark') // escutar um campo do objeto
 
 
     const state = ref({
@@ -82,7 +80,6 @@ export default {
     return {
       user,
       fullName,
-      // changeName,
       state,
       showOrHideList,
       addTask,
